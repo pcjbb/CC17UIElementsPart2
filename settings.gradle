@@ -1,0 +1,2 @@
+rootProject.name = "CC17UIElementsPart2"
+include ':app'
