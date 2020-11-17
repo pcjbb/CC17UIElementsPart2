@@ -10,20 +10,29 @@ import android.widget.ListView
 
 class MainActivity : AppCompatActivity() {
     val songsOnQueue = ArrayList<String>()
+    val songsArray = arrayOf(
+        "Comfort Crowd", "Wish You Were Sober", "Maniac", "(Online Love)", "Checkmate", "The Cut That Always Bleeds", "Fight or Flight", "Affluenza", "(Can We Be Friends?)", "Heather",
+        "dear p", "no song without you", "free love", "iloveyoumorethanicansay", "bymyside", "la la la that's how it goes", "one way to tokyo", "can't bear to be without you", "loving you is so easy", "s o c i a l d i s t a n c i n g",
+        "Wherever You Are", "Sometimes", "Saving Grace", "Say Something", "The Evening", "Spend It With You", "Care", "Heart Open", "Everyone Changes", "In the End"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray.sorted())
+        val songsListView = findViewById<ListView>(R.id.songsList)
+        songsListView.adapter = adapter
+        registerForContextMenu(songsListView)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.main_menu,menu)
+        inflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
+        return when (item.itemId) {
             R.id.go_to_songs -> {
                 startActivity(Intent(this, MainActivity::class.java))
                 true
