@@ -8,22 +8,27 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import java.lang.String.CASE_INSENSITIVE_ORDER
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     val songsOnQueue = ArrayList<String>()
-    val songsArray = arrayOf(
-        "Comfort Crowd", "Wish You Were Sober", "Maniac", "(Online Love)", "Checkmate", "The Cut That Always Bleeds", "Fight or Flight", "Affluenza", "(Can We Be Friends?)", "Heather",
-        "dear p", "no song without you", "free love", "iloveyoumorethanicansay", "bymyside", "la la la that's how it goes", "one way to tokyo", "can't bear to be without you", "loving you is so easy", "s o c i a l d i s t a n c i n g",
-        "Wherever You Are", "Sometimes", "Saving Grace", "Say Something", "The Evening", "Spend It With You", "Care", "Heart Open", "Everyone Changes", "In the End"
-    )
-
+    var songsArray = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray.sorted())
+
+        songsArray.addAll(resources.getStringArray(R.array.kidKrow))
+        songsArray.addAll(resources.getStringArray(R.array.noSongWithoutYou))
+        songsArray.addAll(resources.getStringArray(R.array.oneDayAtATime))
+        Collections.sort(songsArray, String.CASE_INSENSITIVE_ORDER)
+
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray)
         val songsListView = findViewById<ListView>(R.id.songsList)
         songsListView.adapter = adapter
         registerForContextMenu(songsListView)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

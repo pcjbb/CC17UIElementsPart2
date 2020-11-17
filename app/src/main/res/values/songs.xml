@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="kidKrow">
+        <item>Comfort Crowd</item>
+        <item>Wish You Were Sober</item>
+        <item>Maniac</item>
+        <item>(Online Love)</item>
+        <item>Checkmate</item>
+        <item>The Cut That Always Bleeds</item>
+        <item>Fight or Flight</item>
+        <item>Affluenza</item>
+        <item>(Can We Be Friends?)</item>
+        <item>Heather</item>
+        <item>Little League</item>
+        <item>The Story</item>
+    </string-array>
+    <string-array name="noSongWithoutYou">
+        <item>dear P</item>
+        <item>no song without you</item>
+        <item>free love</item>
+        <item>iloveyoumorethanicansay</item>
+        <item>by my side</item>
+        <item>la la la that\'s how it goes</item>
+        <item>one way to tokyo</item>
+        <item>can\'t bear to be without you</item>
+        <item>loving you is so easy</item>
+        <item>s o c i a l d i s t a n c i n g</item>
+        <item>lines on our faces</item>
+        <item>gone gone gone</item>
+        <item>our love will never die</item>
+        <item>smile more smile more smile more</item>
+    </string-array>
+    <string-array name="oneDayAtATime">
+        <item>Wherever You Are</item>
+        <item>Sometimes</item>
+        <item>Saving Grace</item>
+        <item>Say Something</item>
+        <item>The Evening</item>
+        <item>Spend It with You</item>
+        <item>Care</item>
+        <item>Heart Open</item>
+        <item>Everyone Changes</item>
+        <item>In the End</item>
+    </string-array>
+
+</resources>
