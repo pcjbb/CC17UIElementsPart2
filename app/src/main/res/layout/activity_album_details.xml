@@ -6,4 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".AlbumDetailsActivity">
 
+    <ImageView
+        android:id="@+id/albumCover"
+        android:layout_width="264dp"
+        android:layout_height="262dp"
+        android:layout_marginTop="36dp"
+        android:elevation="1dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/kidkrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/albumArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/albumTitle" />
+
+    <ListView
+        android:id="@+id/albumDetailsList"
+        android:layout_width="411dp"
+        android:layout_height="305dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/albumArtist"
+        app:layout_constraintVertical_bias="0.448" />
+
+    <TextView
+        android:id="@+id/albumTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/albumCover" />
 </androidx.constraintlayout.widget.ConstraintLayout>
