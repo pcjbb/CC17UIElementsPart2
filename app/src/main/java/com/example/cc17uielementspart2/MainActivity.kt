@@ -3,6 +3,7 @@ package com.example.cc17uielementspart2
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -50,4 +51,30 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.context_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        return when (item.itemId) {
+            R.id.add_to_queue -> {
+                songsOnQueue.add(songsArray[menuInfo.position])
+                //to check if may laman
+                Log.i("array", "Songs in queue: $songsOnQueue")
+                true
+            }
+            else -> {
+                return super.onContextItemSelected(item)
+            }
+        }
+    }
+
 }
