@@ -12,11 +12,15 @@ class AlbumsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_albums)
 
+        //map grid view
         val GridView = findViewById<GridView>(R.id.albumsGridView) as GridView
 
+        //adapter para makargahan ng pics hehe
         GridView.adapter = ImageAdapter(applicationContext)
 
+        //item listener; mag-iiba maipapasang values based sa clinick na pic/album cover
         GridView.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
+            //intent para sa ipapasang values sa next act
             val intent = Intent(this, AlbumDetailsActivity::class.java)
             var albumSongs = arrayListOf<String>()
             var uri: String = ""
@@ -26,7 +30,6 @@ class AlbumsActivity : AppCompatActivity() {
                 uri = "@drawable/kidkrow"
                 albumTitle = getString(R.string.album1)
                 albumArtist = getString(R.string.artist1)
-                Log.i("album", "albumname: $albumTitle")
                 albumSongs.clear()
                 albumSongs.addAll(resources.getStringArray(R.array.kidKrow))
             } else if (position == 1) {
@@ -42,6 +45,7 @@ class AlbumsActivity : AppCompatActivity() {
                 albumSongs.clear()
                 albumSongs.addAll(resources.getStringArray(R.array.oneDayAtATime))
             }
+            //mga ipapasang values
             intent.putStringArrayListExtra("songs", albumSongs)
             intent.putExtra("imageUri", uri)
             intent.putExtra("albumTitle", albumTitle)

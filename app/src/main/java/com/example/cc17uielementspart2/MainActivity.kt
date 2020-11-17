@@ -19,11 +19,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //para alphabetized
         songsArray.addAll(resources.getStringArray(R.array.kidKrow))
         songsArray.addAll(resources.getStringArray(R.array.noSongWithoutYou))
         songsArray.addAll(resources.getStringArray(R.array.oneDayAtATime))
         Collections.sort(songsArray, String.CASE_INSENSITIVE_ORDER)
 
+        //adapter for songs list
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray)
         val songsListView = findViewById<ListView>(R.id.songsList)
         songsListView.adapter = adapter
@@ -31,12 +33,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //inflate main menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return true
     }
-
+    //what will hapen when option is clicked
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.go_to_songs -> {
@@ -57,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //context menu
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
@@ -66,13 +70,13 @@ class MainActivity : AppCompatActivity() {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.context_menu, menu)
     }
-
+    //what will happen if menu is clicked
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
         return when (item.itemId) {
             R.id.add_to_queue -> {
                 songsOnQueue.add(songsArray[menuInfo.position])
-                //to check if may laman
+                //to check lang if may laman kanina hehe
                 Log.i("array", "Songs in queue: $songsOnQueue")
                 true
             }
