@@ -9,6 +9,7 @@ class QueuedSongsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_queued_songs)
+
         val songsQueue = intent.getStringArrayListExtra("songs")
         val songsQueueArray = songsQueue!!.toTypedArray()
         val adapter =
