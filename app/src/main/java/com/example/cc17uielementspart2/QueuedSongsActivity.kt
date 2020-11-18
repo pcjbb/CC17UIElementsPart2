@@ -10,12 +10,11 @@ class QueuedSongsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_queued_songs)
 
-        //kuha ng values from main
-        val songsQueue = intent.getStringArrayListExtra("songs")
-        val songsQueueArray = songsQueue!!.toTypedArray()
-        //karga ng values gamit adapter
-        val adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsQueueArray)
+        //get values from main
+        val songsQueue = intent.getStringArrayListExtra("songs")!!.toTypedArray()
+
+        //adapter for queued songs list
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsQueue)
         val queuedSongsListView = findViewById<ListView>(R.id.songsQueued)
         queuedSongsListView.adapter = adapter
     }

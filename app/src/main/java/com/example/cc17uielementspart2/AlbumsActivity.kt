@@ -15,17 +15,19 @@ class AlbumsActivity : AppCompatActivity() {
         //map grid view
         val GridView = findViewById<GridView>(R.id.albumsGridView) as GridView
 
-        //adapter para makargahan ng pics hehe
+        //image adapter for grid view
         GridView.adapter = ImageAdapter(applicationContext)
 
-        //item listener; mag-iiba maipapasang values based sa clinick na pic/album cover
+        //item listener when an album cover is clicked
         GridView.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
-            //intent para sa ipapasang values sa next act
-            val intent = Intent(this, AlbumDetailsActivity::class.java)
+
+            //var declaration
             var albumSongs = arrayListOf<String>()
             var uri: String = ""
             var albumTitle: String = ""
             var albumArtist: String = ""
+
+            //condition on what will hapen if a cover is clicked in relation to its index number(position)
             if (position == 0) {
                 uri = "@drawable/kidkrow"
                 albumTitle = getString(R.string.album1)
@@ -45,12 +47,14 @@ class AlbumsActivity : AppCompatActivity() {
                 albumSongs.clear()
                 albumSongs.addAll(resources.getStringArray(R.array.oneDayAtATime))
             }
-            //mga ipapasang values
+
+            //intent for passing values to the next act
+            val intent = Intent(this, AlbumDetailsActivity::class.java)
+            //add data to intent
             intent.putStringArrayListExtra("songs", albumSongs)
             intent.putExtra("imageUri", uri)
             intent.putExtra("albumTitle", albumTitle)
             intent.putExtra("albumArtist", albumArtist)
-            intent.putExtra("position", position)
             startActivity(intent)
         }
     }
