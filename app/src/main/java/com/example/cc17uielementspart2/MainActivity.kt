@@ -8,12 +8,16 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 import kotlin.collections.ArrayList
 
+val songsOnQueue = ArrayList<String>()
+var songsArray = arrayListOf<String>()
+
 class MainActivity : AppCompatActivity() {
-    val songsOnQueue = ArrayList<String>()
-    var songsArray = arrayListOf<String>()
+
+    lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         Collections.sort(songsArray, String.CASE_INSENSITIVE_ORDER)
 
         //adapter for songs list
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray)
+        adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray)
         val songsListView = findViewById<ListView>(R.id.songsList)
         songsListView.adapter = adapter
         registerForContextMenu(songsListView)
@@ -55,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.go_to_queue -> {
                 val intent = Intent(this, QueuedSongsActivity::class.java)
-                intent.putStringArrayListExtra("songs", songsOnQueue)
                 startActivity(intent)
                 true
             }
@@ -81,7 +84,15 @@ class MainActivity : AppCompatActivity() {
             R.id.add_to_queue -> {
                 //add selected song to queue
                 songsOnQueue.add(songsArray[menuInfo.position])
-                Toast.makeText(this, "Song added to QUEUE", Toast.LENGTH_LONG).show()
+
+                //snackbar
+                val songsListView: ListView = findViewById<ListView>(R.id.songsList)
+                val snackbar: Snackbar = Snackbar.make(songsListView, "${songsArray[menuInfo.position]} has been added to QUEUE", Snackbar.LENGTH_SHORT)
+                snackbar.setAction("GO TO QUEUE", View.OnClickListener {
+                    startActivity(Intent(this, QueuedSongsActivity::class.java))
+                })
+                snackbar.show()
+
                 true
             }
             else -> {
