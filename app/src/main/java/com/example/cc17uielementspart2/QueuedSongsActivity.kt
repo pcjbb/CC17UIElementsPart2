@@ -1,5 +1,8 @@
 package com.example.cc17uielementspart2
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
@@ -13,7 +16,7 @@ import android.widget.Toast
 
 class QueuedSongsActivity : AppCompatActivity() {
 
-    lateinit var adapter : ArrayAdapter<String>
+    lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +38,10 @@ class QueuedSongsActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.remove_song -> {
+                //toast
                 val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
                 val toast: Toast = Toast.makeText(this, "$songsOnQueue has been removed from QUEUE", Toast.LENGTH_SHORT)
+                //removes song from queue
                 songsOnQueue.removeAt(menuInfo.position)
                 adapter.notifyDataSetChanged()
                 toast.show()
