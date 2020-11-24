@@ -67,11 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //context menu
-    override fun onCreateContextMenu(
-            menu: ContextMenu?,
-            v: View?,
-            menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.context_menu, menu)
