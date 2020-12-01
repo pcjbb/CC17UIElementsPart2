@@ -1,6 +1,13 @@
 package com.example.cc17uielementspart2
 
+import android.app.AlertDialog
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
@@ -12,15 +19,24 @@ import com.example.cc17uielementspart2.models.Song
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 import kotlin.collections.ArrayList
-val songsOnQueue = ArrayList<String>()
-var songsArray = arrayListOf<String>()
+
+var songsOnQueue = ArrayList<String>()
+
 class MainActivity : AppCompatActivity() {
+
+    var songsArray = arrayListOf<String>()
 
     lateinit var adapter: ArrayAdapter<String>
     lateinit var songsTableHandler: SongsTableHandler
     lateinit var songs: MutableList<Song>
     lateinit var songsListView: ListView
-    var addedSongs : ArrayList<String> = ArrayList()
+    lateinit var songsString: MutableList<String>
+
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder: Notification.Builder
+    private val channelId = "i.apps.notifications"
+    private val description = "Test notification"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,17 +47,17 @@ class MainActivity : AppCompatActivity() {
 
         //get records
         songs = songsTableHandler.read()
+        songsString = songsTableHandler.songsInString()
 
-        //add values in ArrayList
-        songsArray.addAll(resources.getStringArray(R.array.kidKrow))
-        songsArray.addAll(resources.getStringArray(R.array.noSongWithoutYou))
-        songsArray.addAll(resources.getStringArray(R.array.oneDayAtATime))
-        for(song in songs){
-            songsArray.add(song.toString())
+        //add values
+        var oldSongs = resources.getStringArray(R.array.kidKrow) + resources.getStringArray(R.array.noSongWithoutYou) + resources.getStringArray(R.array.oneDayAtATime)
+        //to alphabetize list
+        oldSongs.sort()
+        var allSongs = songsString + oldSongs
+        for (song in allSongs) {
+            songsArray.add(song)
         }
 
-        //to alphabetize list
-        Collections.sort(songsArray, String.CASE_INSENSITIVE_ORDER)
 
         //adapter for songs list
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray)
@@ -62,7 +78,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.go_to_songs -> {
-                startActivity(Intent(this, MainActivity::class.java))
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
                 true
             }
             R.id.go_to_albums -> {
@@ -74,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-            R.id.go_to_add_song-> {
+            R.id.go_to_add_song -> {
                 startActivity(Intent(this, AddNewSong::class.java))
                 true
             }
@@ -107,10 +124,77 @@ class MainActivity : AppCompatActivity() {
 
                 true
             }
+            R.id.edit_song -> {
+                //get the song selected
+                val song_id = songs[menuInfo.position].id
+
+                //put as an extra
+                val intent = Intent(this, EditSong::class.java)
+                intent.putExtra("song_id", song_id)
+                startActivity(intent)
+                true
+            }
+            R.id.delete_song -> {
+                val song = songs[menuInfo.position]
+                val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
+                val dialogBuilder = AlertDialog.Builder(this)
+                var songName = songsArray[menuInfo.position]
+                dialogBuilder.setMessage("Do you want to delete \"$songName\" ?")
+                        .setCancelable(false)
+                        //when Ok is selected
+                        .setPositiveButton("OK") { _, _ ->
+                            songsArray.removeAt(menuInfo.position)
+                            if (songsTableHandler.delete(song)) {
+                                songsArray.removeAt(menuInfo.position)
+                                adapter.notifyDataSetChanged()
+                                Toast.makeText(applicationContext, "Deleted $songName", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(applicationContext, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                            }
+
+                            //get notif service as notif manager
+                            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                                notificationChannel = NotificationChannel(
+                                        channelId, description, NotificationManager.IMPORTANCE_HIGH)
+                                notificationChannel.enableLights(true)
+                                notificationChannel.lightColor = Color.CYAN
+                                notificationChannel.enableVibration(true)
+                                notificationManager.createNotificationChannel(notificationChannel)
+
+                                builder = Notification.Builder(this, channelId)
+                                        .setContentTitle("Song Removed")
+                                        .setContentText("You deleted $songName.")
+                                        .setSmallIcon(R.drawable.ic_launcher_background)
+
+                            } else {
+                                builder = Notification.Builder(this)
+                                        .setContentTitle("Song Removed")
+                                        .setContentText("You deleted $songName.")
+                                        .setSmallIcon(R.drawable.ic_launcher_background)
+                            }
+                            //calls manager
+                            notificationManager.notify(0, builder.build())
+                            //updates list
+                            adapter.notifyDataSetChanged()
+                            //when cancel is pressed
+                        }.setNegativeButton("CANCEL") { dialog, _ ->
+                            dialog.cancel()
+                        }
+                val alert = dialogBuilder.create()
+                alert.show()
+
+                true
+            }
             else -> {
                 return super.onContextItemSelected(item)
             }
         }
     }
+
+}
+
+private fun Intent.putExtra(s: String, songId: IntRange) {
 
 }

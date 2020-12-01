@@ -26,6 +26,7 @@ class QueuedSongsActivity : AppCompatActivity() {
     private val channelId = "i.apps.notifications"
     private val description = "Test notification"
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_queued_songs)
@@ -48,7 +49,7 @@ class QueuedSongsActivity : AppCompatActivity() {
             R.id.remove_song -> {
                 //toast
                 val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
-                val toast: Toast = Toast.makeText(this, "$songsOnQueue has been removed from QUEUE", Toast.LENGTH_LONG)
+                val toast: Toast = Toast.makeText(this, "${songsOnQueue[menuInfo.position]} has been removed from QUEUE", Toast.LENGTH_LONG)
 
                 //removes song from queue
                 songsOnQueue.removeAt(menuInfo.position)

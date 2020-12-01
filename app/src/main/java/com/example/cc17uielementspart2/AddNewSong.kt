@@ -41,11 +41,13 @@ class AddNewSong : AppCompatActivity() {
             if (databaseHandler.create(song)) {
                 val view = findViewById<View>(R.id.viewView)
                 val snackbar: Snackbar =
-                    Snackbar.make(view, "${title} has been added", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(view, "$title has been added", Snackbar.LENGTH_SHORT)
                 snackbar.setAction("GO TO SONGS", View.OnClickListener {
                     startActivity(Intent(this, MainActivity::class.java))
                 })
                 snackbar.show()
+                Toast.makeText(applicationContext, "$title song has been added", Toast.LENGTH_SHORT).show()
+
             } else {
                 Toast.makeText(
                     applicationContext,

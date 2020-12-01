@@ -23,6 +23,7 @@ class AlbumDetailsActivity : AppCompatActivity() {
     lateinit var builder: Notification.Builder
     private val channelId = "i.apps.notifications"
     private val description = "Test notification"
+    var songsArray = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -36,7 +36,7 @@ class SongsTableHandler(var context: Context) :
         onCreate(db)
     }
 
-    fun create(song: Song): Boolean{
+    fun create(song: Song): Boolean {
         //get the database
         val database = this.writableDatabase
 
@@ -50,28 +50,114 @@ class SongsTableHandler(var context: Context) :
         val result = database.insert(TABLE_NAME, null, contentValues)
 
         //check for the result
-        if(result == (0).toLong()){
+        if (result == (0).toLong()) {
             return false
         }
         return true
     }
 
-    fun read():MutableList<Song>{
-        val songsList : MutableList<Song> = ArrayList<Song>()
+    fun update(song: Song): Boolean {
+        //get
+        val database = this.writableDatabase
+
+        //set
+        val contentValues = ContentValues()
+        contentValues.put(COL_TITLE, song.title)
+        contentValues.put(COL_ARTIST, song.artist)
+        contentValues.put(COL_ALBUM, song.album)
+
+        //update
+        val result = database.update(TABLE_NAME, contentValues, "id=" + song.id, null)
+
+        //check
+        if (result == 0) {
+            return false
+        }
+        return true
+
+    }
+
+    fun delete(song: Song): Boolean {
+        val database = this.writableDatabase
+        val result = database.delete(TABLE_NAME, "id=${song.id}", null)
+        if (result == 0) {
+            return false
+        }
+        return true
+    }
+
+    fun read(): MutableList<Song> {
+        val songsList: MutableList<Song> = ArrayList<Song>()
+        val query = "SELECT * FROM " + TABLE_NAME
+        val database = this.readableDatabase
+        var cursor: Cursor? = null
+        try {
+            cursor = database.rawQuery(query, null)
+        } catch (e: SQLException) {
+            database.execSQL(query)
+            return songsList
+        }
+
+        var id: Int
+        var title: String
+        var artist: String
+        var album: String
+        if (cursor.moveToFirst()) {
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(COL_ID))
+                title = cursor.getString(cursor.getColumnIndex(COL_TITLE))
+                artist = cursor.getString(cursor.getColumnIndex(COL_ARTIST))
+                album = cursor.getString(cursor.getColumnIndex(COL_ALBUM))
+
+                val song = Song(id, title, artist, album)
+                songsList.add(song)
+            } while (cursor.moveToNext())
+        }
+        return songsList
+    }
+
+    fun readOne(song_id: Int): Song {
+        var song = Song(0, "", "", "")
+        val query = "SELECT * FROM $TABLE_NAME WHERE id=$song_id"
+        val database = this.readableDatabase
+        var cursor: Cursor? = null
+        try {
+            cursor = database.rawQuery(query, null)
+        } catch (e: SQLException) {
+            database.execSQL(query)
+            return song
+        }
+        var id: Int
+        var title: String
+        var artist: String
+        var album: String
+        if (cursor.moveToFirst()) {
+
+            id = cursor.getInt(cursor.getColumnIndex(COL_ID))
+            title = cursor.getString(cursor.getColumnIndex(COL_TITLE))
+            artist = cursor.getString(cursor.getColumnIndex(COL_ARTIST))
+            album = cursor.getString(cursor.getColumnIndex(COL_ALBUM))
+            song = Song(id, title, artist, album)
+
+        }
+        return song
+    }
+
+    fun songsInString(): MutableList<String> {
+        val songsList : MutableList<String> = ArrayList<String>()
         val query = "SELECT * FROM "+ TABLE_NAME
         val database = this.readableDatabase
         var cursor: Cursor? = null
         try{
             cursor = database.rawQuery(query, null)
-        }catch (e: SQLException){
+        }catch (e:SQLException){
             database.execSQL(query)
             return songsList
         }
-
-        var id : Int
-        var title : String
-        var artist : String
-        var album : String
+        var id: Int
+        var title: String
+        var artist: String
+        var album: String
         if(cursor.moveToFirst()){
             do{
                 id = cursor.getInt(cursor.getColumnIndex(COL_ID))
@@ -79,10 +165,12 @@ class SongsTableHandler(var context: Context) :
                 artist = cursor.getString(cursor.getColumnIndex(COL_ARTIST))
                 album = cursor.getString(cursor.getColumnIndex(COL_ALBUM))
 
-                val song = Song(id,title, artist, album)
-                songsList.add(song)
+                val song = Song(id, title, artist, album)
+                songsList.add(song.toString())
             }while(cursor.moveToNext())
         }
         return songsList
     }
+
+
 }
