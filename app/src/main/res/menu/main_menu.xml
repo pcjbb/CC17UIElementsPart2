@@ -10,4 +10,8 @@
         app:showAsAction="ifRoom"
         android:id="@+id/go_to_queue"
         android:title="Queue"/>
+    <item android:id="@+id/go_to_add_song"
+        android:title="Add a song"></item>
+    <item android:id="@+id/go_to_add_album"
+        android:title="Add an album"></item>
 </menu>
