@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import com.example.cc17uielementspart2.models.Song
-import com.google.android.material.snackbar.Snackbar
 
 class EditSong : AppCompatActivity() {
     lateinit var editTitleET: EditText
@@ -25,10 +24,10 @@ class EditSong : AppCompatActivity() {
         val databaseHandler = SongsTableHandler(this)
         song = databaseHandler.readOne(song_id)
 
-        editTitleET = findViewById(R.id.editTitleET)
+        editTitleET = findViewById(R.id.editATitleET)
         editArtistET = findViewById(R.id.editArtistET)
         editAlbumET = findViewById(R.id.editAlbumET)
-        updateSongBtn = findViewById(R.id.updateSongBtn)
+        updateSongBtn = findViewById(R.id.updateAlbumBtn)
 
         editTitleET.setText(song.title)
         editArtistET.setText(song.artist)
@@ -47,11 +46,7 @@ class EditSong : AppCompatActivity() {
             if (databaseHandler.update(updated_song)) {
                 Toast.makeText(applicationContext, "Song has been updated.", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Oops! Something went wrong.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(applicationContext, "Oops! Something went wrong.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -80,6 +75,10 @@ class EditSong : AppCompatActivity() {
             }
             R.id.go_to_add_song-> {
                 startActivity(Intent(this, AddNewSong::class.java))
+                true
+            }
+            R.id.go_to_add_album-> {
+                startActivity(Intent(this, AddAlbum::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

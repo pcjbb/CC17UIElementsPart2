@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">CC17UIElementsPart2</string>
 
-    <string name="album1">Kid Krow</string>
-    <string name="album2">No Song Without You</string>
-    <string name="album3">One Day at a Time</string>
-
-    <string name="artist1">Conan Gray</string>
-    <string name="artist2">Honne</string>
-    <string name="artist3">Kodaline</string>
+    <string-array name="albums">
+        <item>Kid Krow</item>
+        <item>No Song Without You</item>
+        <item>One Day at a Time</item>
+    </string-array>
+    <string-array name="artists">
+        <item>Conan Gray</item>
+        <item>Honne</item>
+        <item>Kodaline</item>
+    </string-array>
 </resources>

@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             songsArray.add(song)
         }
 
-
         //adapter for songs list
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray)
         songsListView = findViewById<ListView>(R.id.songsList)
@@ -93,6 +92,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.go_to_add_song -> {
                 startActivity(Intent(this, AddNewSong::class.java))
+                true
+            }
+            R.id.go_to_add_album-> {
+                startActivity(Intent(this, AddAlbum::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -187,14 +190,18 @@ class MainActivity : AppCompatActivity() {
 
                 true
             }
+            R.id.add_to_album -> {
+                val intent = Intent(applicationContext, AlbumOptions::class.java)
+                val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
+                var songToAdd = (songsArray[menuInfo.position])
+                intent.putExtra("addThis", songToAdd)
+                startActivity(intent)
+                true
+            }
             else -> {
                 return super.onContextItemSelected(item)
             }
         }
     }
-
-}
-
-private fun Intent.putExtra(s: String, songId: IntRange) {
 
 }

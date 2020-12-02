@@ -7,4 +7,6 @@
         android:title="Edit Song"></item>
     <item android:id="@+id/delete_song"
         android:title="Delete Song"></item>
+    <item android:id="@+id/add_to_album"
+        android:title="Add to Album"></item>
 </menu>

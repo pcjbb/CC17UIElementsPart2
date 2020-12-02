@@ -13,10 +13,10 @@ import com.example.cc17uielementspart2.models.Song
 import com.google.android.material.snackbar.Snackbar
 
 class AddNewSong : AppCompatActivity() {
-    lateinit var songTitleET : EditText
-    lateinit var songArtistET : EditText
-    lateinit var songAlbumET : EditText
-    lateinit var addSongBtn : Button
+    lateinit var songTitleET: EditText
+    lateinit var songArtistET: EditText
+    lateinit var songAlbumET: EditText
+    lateinit var addSongBtn: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_song)
@@ -41,29 +41,30 @@ class AddNewSong : AppCompatActivity() {
             if (databaseHandler.create(song)) {
                 val view = findViewById<View>(R.id.viewView)
                 val snackbar: Snackbar =
-                    Snackbar.make(view, "$title has been added", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(view, "$title has been added", Snackbar.LENGTH_SHORT)
                 snackbar.setAction("GO TO SONGS", View.OnClickListener {
                     startActivity(Intent(this, MainActivity::class.java))
                 })
                 snackbar.show()
-                Toast.makeText(applicationContext, "$title song has been added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "$title song has been added", Toast.LENGTH_SHORT)
+                        .show()
 
             } else {
                 Toast.makeText(
-                    applicationContext,
-                    "Oops! Something went wrong.",
-                    Toast.LENGTH_SHORT
+                        applicationContext,
+                        "Oops! Something went wrong.",
+                        Toast.LENGTH_SHORT
                 ).show()
             }
             clearFields()
         }
     }
 
-        fun clearFields(){
-            songTitleET.text.clear()
-            songArtistET.text.clear()
-            songAlbumET.text.clear()
-        }
+    fun clearFields() {
+        songTitleET.text.clear()
+        songArtistET.text.clear()
+        songAlbumET.text.clear()
+    }
 
     //inflate main menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -88,9 +89,18 @@ class AddNewSong : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
+            R.id.go_to_add_song -> {
+                startActivity(Intent(this, AddNewSong::class.java))
+                true
+            }
+            R.id.go_to_add_album -> {
+                startActivity(Intent(this, AddAlbum::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
+}
 
 
-    }
+

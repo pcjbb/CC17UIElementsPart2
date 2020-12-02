@@ -14,7 +14,7 @@ class SongsTableHandler(var context: Context) :
         private val DATABASE_VERSION = 1
         private val DATABASE_NAME = "songs_database"
         private val TABLE_NAME = "songs"
-        private val COL_ID = "id"
+        val COL_ID = "id"
         private val COL_TITLE = "title"
         private val COL_ARTIST = "artist"
         private val COL_ALBUM = "album"
@@ -144,13 +144,13 @@ class SongsTableHandler(var context: Context) :
     }
 
     fun songsInString(): MutableList<String> {
-        val songsList : MutableList<String> = ArrayList<String>()
-        val query = "SELECT * FROM "+ TABLE_NAME
+        val songsList: MutableList<String> = ArrayList<String>()
+        val query = "SELECT * FROM " + TABLE_NAME
         val database = this.readableDatabase
         var cursor: Cursor? = null
-        try{
+        try {
             cursor = database.rawQuery(query, null)
-        }catch (e:SQLException){
+        } catch (e: SQLException) {
             database.execSQL(query)
             return songsList
         }
@@ -158,8 +158,8 @@ class SongsTableHandler(var context: Context) :
         var title: String
         var artist: String
         var album: String
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 id = cursor.getInt(cursor.getColumnIndex(COL_ID))
                 title = cursor.getString(cursor.getColumnIndex(COL_TITLE))
                 artist = cursor.getString(cursor.getColumnIndex(COL_ARTIST))
@@ -167,7 +167,7 @@ class SongsTableHandler(var context: Context) :
 
                 val song = Song(id, title, artist, album)
                 songsList.add(song.toString())
-            }while(cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         return songsList
     }
