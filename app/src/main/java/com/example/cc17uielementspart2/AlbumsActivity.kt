@@ -69,6 +69,7 @@ class AlbumsActivity : AppCompatActivity() {
                 //intent for passing values to the next act
                 val intent = Intent(this, AlbumDetailsActivity::class.java)
                 intent.putExtra("position", albumNames[position])
+                intent.putExtra("name", albumNames[position])
                 startActivity(intent)
             }
         registerForContextMenu(albumGridView)

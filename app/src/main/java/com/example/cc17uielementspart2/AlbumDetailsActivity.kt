@@ -133,14 +133,13 @@ class AlbumDetailsActivity : AppCompatActivity() {
             R.id.delete_song -> {
                 val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
                 val dialogBuilder = AlertDialog.Builder(this)
-                var songName = songsArray[menuInfo.position]
-                dialogBuilder.setMessage("Do you want to delete \"$songName\" ?")
+                dialogBuilder.setMessage("Do you want to delete \"${albumSongs[menuInfo.position]}\" ?")
                     .setCancelable(false)
                     //when Ok is selected
                     .setPositiveButton("OK") { _, _ ->
                         //toast when a song is removed
                         val toast: Toast =
-                            Toast.makeText(this, "Deleted $songName", Toast.LENGTH_SHORT)
+                            Toast.makeText(this, "Deleted song from album.", Toast.LENGTH_SHORT)
                         toast.show()
 
                         //get notif service as notif manager
@@ -158,13 +157,13 @@ class AlbumDetailsActivity : AppCompatActivity() {
 
                             builder = Notification.Builder(this, channelId)
                                 .setContentTitle("Song Removed")
-                                .setContentText("You deleted $songName from the album.")
+                                .setContentText("Successfully deleted song from the album.")
                                 .setSmallIcon(R.drawable.ic_launcher_background)
 
                         } else {
                             builder = Notification.Builder(this)
                                 .setContentTitle("Song Removed")
-                                .setContentText("You deleted $songName from the album.")
+                                .setContentText("Successfully deleted song from the album.")
                                 .setSmallIcon(R.drawable.ic_launcher_background)
                         }
                         //calls manager
@@ -177,8 +176,7 @@ class AlbumDetailsActivity : AppCompatActivity() {
                     }
                 val alert = dialogBuilder.create()
                 alert.show()
-                val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
-                songsArray.removeAt(info.position)
+                albumSongs.removeAt(menuInfo.position)
                 true
             }
             else -> super.onContextItemSelected(item)
